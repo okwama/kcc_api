@@ -7,6 +7,7 @@ import { ProductReport } from 'src/entities/product-report.entity';
 import { VisibilityReport } from 'src/entities/visibility-report.entity';
 import { ShowOfShelfReport } from 'src/entities/show-of-shelf-report.entity';
 import { ProductExpiryReport } from 'src/entities/product-expiry-report.entity';
+import { NonSuppliesReport } from 'src/entities/non-supplies-report.entity';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductExpiryReport } from 'src/entities/product-expiry-report.entity';
       VisibilityReport,
       ShowOfShelfReport,
       ProductExpiryReport,
+      NonSuppliesReport,
     ]),
   ],
   controllers: [ReportsController],

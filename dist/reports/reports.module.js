@@ -16,6 +16,7 @@ const product_report_entity_1 = require("../entities/product-report.entity");
 const visibility_report_entity_1 = require("../entities/visibility-report.entity");
 const show_of_shelf_report_entity_1 = require("../entities/show-of-shelf-report.entity");
 const product_expiry_report_entity_1 = require("../entities/product-expiry-report.entity");
+const non_supplies_report_entity_1 = require("../entities/non-supplies-report.entity");
 let ReportsModule = class ReportsModule {
 };
 exports.ReportsModule = ReportsModule;
@@ -28,6 +29,7 @@ exports.ReportsModule = ReportsModule = __decorate([
                 visibility_report_entity_1.VisibilityReport,
                 show_of_shelf_report_entity_1.ShowOfShelfReport,
                 product_expiry_report_entity_1.ProductExpiryReport,
+                non_supplies_report_entity_1.NonSuppliesReport,
             ]),
         ],
         controllers: [reports_controller_1.ReportsController],

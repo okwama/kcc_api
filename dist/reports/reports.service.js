@@ -21,13 +21,15 @@ const product_report_entity_1 = require("../entities/product-report.entity");
 const visibility_report_entity_1 = require("../entities/visibility-report.entity");
 const show_of_shelf_report_entity_1 = require("../entities/show-of-shelf-report.entity");
 const product_expiry_report_entity_1 = require("../entities/product-expiry-report.entity");
+const non_supplies_report_entity_1 = require("../entities/non-supplies-report.entity");
 let ReportsService = class ReportsService {
-    constructor(feedbackReportRepository, productReportRepository, visibilityReportRepository, showOfShelfReportRepository, productExpiryReportRepository) {
+    constructor(feedbackReportRepository, productReportRepository, visibilityReportRepository, showOfShelfReportRepository, productExpiryReportRepository, nonSuppliesReportRepository) {
         this.feedbackReportRepository = feedbackReportRepository;
         this.productReportRepository = productReportRepository;
         this.visibilityReportRepository = visibilityReportRepository;
         this.showOfShelfReportRepository = showOfShelfReportRepository;
         this.productExpiryReportRepository = productExpiryReportRepository;
+        this.nonSuppliesReportRepository = nonSuppliesReportRepository;
     }
     async submitReport(reportData) {
         try {
@@ -170,10 +172,29 @@ let ReportsService = class ReportsService {
                     console.log('✅ Product expiry report created at:', savedProductExpiryReport.createdAt);
                     console.log('📋 ===== PRODUCT EXPIRY REPORT CREATION COMPLETE =====');
                     return savedProductExpiryReport;
+                case 'NON_SUPPLIES':
+                    console.log('📋 ===== NON SUPPLIES REPORT CREATION =====');
+                    const { reportId: nonSuppliesReportId, ...nonSuppliesDetails } = details || {};
+                    const nonSuppliesDataToSave = {
+                        ...mainData,
+                        ...nonSuppliesDetails,
+                        userId: userId || salesRepId
+                    };
+                    console.log('📋 Creating non supplies report with data:', JSON.stringify(nonSuppliesDataToSave, null, 2));
+                    const nonSuppliesReport = this.nonSuppliesReportRepository.create(nonSuppliesDataToSave);
+                    console.log('📋 Non supplies report entity created:', JSON.stringify(nonSuppliesReport, null, 2));
+                    const savedNonSuppliesReport = await this.nonSuppliesReportRepository.save(nonSuppliesReport);
+                    console.log('✅ Non supplies report saved successfully!');
+                    console.log('✅ Non supplies report ID:', savedNonSuppliesReport.id);
+                    console.log('✅ Product name:', savedNonSuppliesReport.productName);
+                    console.log('✅ Comment:', savedNonSuppliesReport.comment);
+                    console.log('✅ Non supplies report created at:', savedNonSuppliesReport.createdAt);
+                    console.log('📋 ===== NON SUPPLIES REPORT CREATION COMPLETE =====');
+                    return savedNonSuppliesReport;
                 default:
                     console.error('❌ ===== UNKNOWN REPORT TYPE =====');
                     console.error('❌ Unknown report type:', reportType);
-                    console.error('❌ Available types: FEEDBACK, PRODUCT_AVAILABILITY, VISIBILITY_ACTIVITY, SHOW_OF_SHELF, PRODUCT_EXPIRY');
+                    console.error('❌ Available types: FEEDBACK, PRODUCT_AVAILABILITY, VISIBILITY_ACTIVITY, SHOW_OF_SHELF, PRODUCT_EXPIRY, NON_SUPPLIES');
                     console.error('❌ Received data:', JSON.stringify(reportData, null, 2));
                     throw new Error(`Unknown report type: ${reportType}`);
             }
@@ -198,7 +219,7 @@ let ReportsService = class ReportsService {
     }
     async getReportsByJourneyPlan(journeyPlanId) {
         try {
-            const [feedbackReports, productReports, visibilityReports, showOfShelfReports, productExpiryReports] = await Promise.all([
+            const [feedbackReports, productReports, visibilityReports, showOfShelfReports, productExpiryReports, nonSuppliesReports] = await Promise.all([
                 this.feedbackReportRepository.find({
                     relations: ['user', 'client'],
                     order: { createdAt: 'DESC' },
@@ -219,6 +240,10 @@ let ReportsService = class ReportsService {
                     relations: ['user', 'client'],
                     order: { createdAt: 'DESC' },
                 }),
+                this.nonSuppliesReportRepository.find({
+                    relations: ['user', 'client'],
+                    order: { createdAt: 'DESC' },
+                }),
             ]);
             return {
                 feedbackReports,
@@ -226,6 +251,7 @@ let ReportsService = class ReportsService {
                 visibilityReports,
                 showOfShelfReports,
                 productExpiryReports,
+                nonSuppliesReports,
             };
         }
         catch (error) {
@@ -267,7 +293,9 @@ exports.ReportsService = ReportsService = __decorate([
     __param(2, (0, typeorm_1.InjectRepository)(visibility_report_entity_1.VisibilityReport)),
     __param(3, (0, typeorm_1.InjectRepository)(show_of_shelf_report_entity_1.ShowOfShelfReport)),
     __param(4, (0, typeorm_1.InjectRepository)(product_expiry_report_entity_1.ProductExpiryReport)),
+    __param(5, (0, typeorm_1.InjectRepository)(non_supplies_report_entity_1.NonSuppliesReport)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

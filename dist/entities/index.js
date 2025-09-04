@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SalesClientPayment = exports.Upload = exports.Target = exports.VisibilityReport = exports.FeedbackReport = exports.ProductReport = exports.CategoryPriceOption = exports.Category = exports.StoreInventory = exports.Store = exports.Leave = exports.Task = exports.UpliftSaleItem = exports.UpliftSale = exports.LoginHistory = exports.JourneyPlan = exports.Clients = exports.SalesRep = void 0;
+exports.NonSuppliesReport = exports.SalesClientPayment = exports.Upload = exports.Target = exports.VisibilityReport = exports.FeedbackReport = exports.ProductReport = exports.CategoryPriceOption = exports.Category = exports.StoreInventory = exports.Store = exports.Leave = exports.Task = exports.UpliftSaleItem = exports.UpliftSale = exports.LoginHistory = exports.JourneyPlan = exports.Clients = exports.SalesRep = void 0;
 var sales_rep_entity_1 = require("./sales-rep.entity");
 Object.defineProperty(exports, "SalesRep", { enumerable: true, get: function () { return sales_rep_entity_1.SalesRep; } });
 var clients_entity_1 = require("./clients.entity");
@@ -37,4 +37,6 @@ var upload_entity_1 = require("./upload.entity");
 Object.defineProperty(exports, "Upload", { enumerable: true, get: function () { return upload_entity_1.Upload; } });
 var sales_client_payment_entity_1 = require("./sales-client-payment.entity");
 Object.defineProperty(exports, "SalesClientPayment", { enumerable: true, get: function () { return sales_client_payment_entity_1.SalesClientPayment; } });
+var non_supplies_report_entity_1 = require("./non-supplies-report.entity");
+Object.defineProperty(exports, "NonSuppliesReport", { enumerable: true, get: function () { return non_supplies_report_entity_1.NonSuppliesReport; } });
 //# sourceMappingURL=index.js.map

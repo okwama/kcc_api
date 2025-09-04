@@ -21,6 +21,9 @@ import { LeaveType } from '../entities/leave-type.entity';
 import { FeedbackReport } from '../entities/feedback-report.entity';
 import { ProductReport } from '../entities/product-report.entity';
 import { VisibilityReport } from '../entities/visibility-report.entity';
+import { ShowOfShelfReport } from '../entities/show-of-shelf-report.entity';
+import { ProductExpiryReport } from '../entities/product-expiry-report.entity';
+import { NonSuppliesReport } from '../entities/non-supplies-report.entity';
 import { SalesClientPayment } from '../entities/sales-client-payment.entity';
 
 export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOptions => {
@@ -40,7 +43,7 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
       entities: [
         SalesRep, Clients, Product, JourneyPlan, LoginHistory, UpliftSale, UpliftSaleItem,
         Task, Leave, Store, StoreInventory, Category, CategoryPriceOption, Order, OrderItem, Users, Notice, LeaveType,
-        FeedbackReport, ProductReport, VisibilityReport, SalesClientPayment,
+        FeedbackReport, ProductReport, VisibilityReport, ShowOfShelfReport, ProductExpiryReport, NonSuppliesReport, SalesClientPayment,
       ],
       synchronize: false,
       logging: configService.get<boolean>('DB_LOGGING', false),
@@ -72,7 +75,7 @@ export const getDatabaseConfig = (configService: ConfigService): TypeOrmModuleOp
     entities: [
       SalesRep, Clients, Product, JourneyPlan, LoginHistory, UpliftSale, UpliftSaleItem,
       Task, Leave, Store, StoreInventory, Category, CategoryPriceOption, Order, OrderItem, Users, Notice, LeaveType,
-      FeedbackReport, ProductReport, VisibilityReport, SalesClientPayment,
+      FeedbackReport, ProductReport, VisibilityReport, ShowOfShelfReport, ProductExpiryReport, NonSuppliesReport, SalesClientPayment,
     ],
     synchronize: false,
     logging: configService.get<boolean>('DB_LOGGING', false),

@@ -6,6 +6,7 @@ import { ProductReport } from '../entities/product-report.entity';
 import { VisibilityReport } from '../entities/visibility-report.entity';
 import { ShowOfShelfReport } from '../entities/show-of-shelf-report.entity';
 import { ProductExpiryReport } from '../entities/product-expiry-report.entity';
+import { NonSuppliesReport } from '../entities/non-supplies-report.entity';
 
 @Injectable()
 export class ReportsService {
@@ -20,6 +21,8 @@ export class ReportsService {
     private showOfShelfReportRepository: Repository<ShowOfShelfReport>,
     @InjectRepository(ProductExpiryReport)
     private productExpiryReportRepository: Repository<ProductExpiryReport>,
+    @InjectRepository(NonSuppliesReport)
+    private nonSuppliesReportRepository: Repository<NonSuppliesReport>,
   ) {}
 
   async submitReport(reportData: any): Promise<any> {
@@ -208,10 +211,34 @@ export class ReportsService {
           console.log('📋 ===== PRODUCT EXPIRY REPORT CREATION COMPLETE =====');
           return savedProductExpiryReport;
 
+        case 'NON_SUPPLIES':
+          console.log('📋 ===== NON SUPPLIES REPORT CREATION =====');
+          // Extract reportId from details and exclude it to avoid duplicate key errors
+          const { reportId: nonSuppliesReportId, ...nonSuppliesDetails } = details || {};
+
+          // Combine main data with details and map userId/salesRepId properly
+          const nonSuppliesDataToSave = {
+            ...mainData,
+            ...nonSuppliesDetails,
+            userId: userId || salesRepId // Use userId if provided, otherwise use salesRepId
+          };
+
+          console.log('📋 Creating non supplies report with data:', JSON.stringify(nonSuppliesDataToSave, null, 2));
+          const nonSuppliesReport = this.nonSuppliesReportRepository.create(nonSuppliesDataToSave);
+          console.log('📋 Non supplies report entity created:', JSON.stringify(nonSuppliesReport, null, 2)); 
+          const savedNonSuppliesReport = await this.nonSuppliesReportRepository.save(nonSuppliesReport);       
+          console.log('✅ Non supplies report saved successfully!');
+          console.log('✅ Non supplies report ID:', (savedNonSuppliesReport as any).id);
+          console.log('✅ Product name:', (savedNonSuppliesReport as any).productName);
+          console.log('✅ Comment:', (savedNonSuppliesReport as any).comment);
+          console.log('✅ Non supplies report created at:', (savedNonSuppliesReport as any).createdAt);       
+          console.log('📋 ===== NON SUPPLIES REPORT CREATION COMPLETE =====');
+          return savedNonSuppliesReport;
+
         default:
           console.error('❌ ===== UNKNOWN REPORT TYPE =====');
           console.error('❌ Unknown report type:', reportType);
-          console.error('❌ Available types: FEEDBACK, PRODUCT_AVAILABILITY, VISIBILITY_ACTIVITY, SHOW_OF_SHELF, PRODUCT_EXPIRY');
+          console.error('❌ Available types: FEEDBACK, PRODUCT_AVAILABILITY, VISIBILITY_ACTIVITY, SHOW_OF_SHELF, PRODUCT_EXPIRY, NON_SUPPLIES');
           console.error('❌ Received data:', JSON.stringify(reportData, null, 2));
           throw new Error(`Unknown report type: ${reportType}`);
       }
@@ -242,7 +269,7 @@ export class ReportsService {
 
   async getReportsByJourneyPlan(journeyPlanId: number): Promise<any> {
     try {
-      const [feedbackReports, productReports, visibilityReports, showOfShelfReports, productExpiryReports] = await Promise.all([
+      const [feedbackReports, productReports, visibilityReports, showOfShelfReports, productExpiryReports, nonSuppliesReports] = await Promise.all([
         this.feedbackReportRepository.find({
           relations: ['user', 'client'],
           order: { createdAt: 'DESC' },
@@ -263,6 +290,10 @@ export class ReportsService {
           relations: ['user', 'client'],
           order: { createdAt: 'DESC' },
         }),
+        this.nonSuppliesReportRepository.find({
+          relations: ['user', 'client'],
+          order: { createdAt: 'DESC' },
+        }),
       ]);
 
       return {
@@ -271,6 +302,7 @@ export class ReportsService {
         visibilityReports,
         showOfShelfReports,
         productExpiryReports,
+        nonSuppliesReports,
       };
     } catch (error) {
       throw new Error(`Failed to get reports: ${error.message}`);

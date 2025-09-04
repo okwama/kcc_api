@@ -54,8 +54,9 @@ async function handler(req, res) {
 if (process.env.NODE_ENV !== 'production') {
     bootstrap().then((app) => {
         const port = process.env.PORT || 3000;
-        app.listen(port, 'localhost', () => {
-            console.log(`🌐 Network accessible on: http://localhost:${port}`);
+        app.listen(port, '0.0.0.0', () => {
+            console.log(`🌐 Network accessible on: http://0.0.0.0:${port}`);
+            console.log(`🌐 Local access: http://localhost:${port}`);
         });
     }).catch((error) => {
         console.error('❌ Failed to start application:', error);

@@ -22,6 +22,9 @@ const leave_type_entity_1 = require("../entities/leave-type.entity");
 const feedback_report_entity_1 = require("../entities/feedback-report.entity");
 const product_report_entity_1 = require("../entities/product-report.entity");
 const visibility_report_entity_1 = require("../entities/visibility-report.entity");
+const show_of_shelf_report_entity_1 = require("../entities/show-of-shelf-report.entity");
+const product_expiry_report_entity_1 = require("../entities/product-expiry-report.entity");
+const non_supplies_report_entity_1 = require("../entities/non-supplies-report.entity");
 const sales_client_payment_entity_1 = require("../entities/sales-client-payment.entity");
 const getDatabaseConfig = (configService) => {
     const useLocalDb = configService.get('USE_LOCAL_DB', 'false') === 'true';
@@ -38,7 +41,7 @@ const getDatabaseConfig = (configService) => {
             entities: [
                 sales_rep_entity_1.SalesRep, clients_entity_1.Clients, product_entity_1.Product, journey_plan_entity_1.JourneyPlan, login_history_entity_1.LoginHistory, uplift_sale_entity_1.UpliftSale, uplift_sale_item_entity_1.UpliftSaleItem,
                 task_entity_1.Task, leave_entity_1.Leave, store_entity_1.Store, store_inventory_entity_1.StoreInventory, category_entity_1.Category, category_price_option_entity_1.CategoryPriceOption, order_entity_1.Order, order_item_entity_1.OrderItem, users_entity_1.Users, notice_entity_1.Notice, leave_type_entity_1.LeaveType,
-                feedback_report_entity_1.FeedbackReport, product_report_entity_1.ProductReport, visibility_report_entity_1.VisibilityReport, sales_client_payment_entity_1.SalesClientPayment,
+                feedback_report_entity_1.FeedbackReport, product_report_entity_1.ProductReport, visibility_report_entity_1.VisibilityReport, show_of_shelf_report_entity_1.ShowOfShelfReport, product_expiry_report_entity_1.ProductExpiryReport, non_supplies_report_entity_1.NonSuppliesReport, sales_client_payment_entity_1.SalesClientPayment,
             ],
             synchronize: false,
             logging: configService.get('DB_LOGGING', false),
@@ -68,7 +71,7 @@ const getDatabaseConfig = (configService) => {
         entities: [
             sales_rep_entity_1.SalesRep, clients_entity_1.Clients, product_entity_1.Product, journey_plan_entity_1.JourneyPlan, login_history_entity_1.LoginHistory, uplift_sale_entity_1.UpliftSale, uplift_sale_item_entity_1.UpliftSaleItem,
             task_entity_1.Task, leave_entity_1.Leave, store_entity_1.Store, store_inventory_entity_1.StoreInventory, category_entity_1.Category, category_price_option_entity_1.CategoryPriceOption, order_entity_1.Order, order_item_entity_1.OrderItem, users_entity_1.Users, notice_entity_1.Notice, leave_type_entity_1.LeaveType,
-            feedback_report_entity_1.FeedbackReport, product_report_entity_1.ProductReport, visibility_report_entity_1.VisibilityReport, sales_client_payment_entity_1.SalesClientPayment,
+            feedback_report_entity_1.FeedbackReport, product_report_entity_1.ProductReport, visibility_report_entity_1.VisibilityReport, show_of_shelf_report_entity_1.ShowOfShelfReport, product_expiry_report_entity_1.ProductExpiryReport, non_supplies_report_entity_1.NonSuppliesReport, sales_client_payment_entity_1.SalesClientPayment,
         ],
         synchronize: false,
         logging: configService.get('DB_LOGGING', false),
